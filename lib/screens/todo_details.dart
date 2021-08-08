@@ -2,8 +2,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_provider/Models/todo.dart';
 import 'package:todo_provider/helpers/db_helper.dart';
+import 'package:todo_provider/providers/todo_provider.dart';
 
 class TodoDetail extends StatefulWidget {
   final String appBarTitle;
@@ -216,10 +218,13 @@ class TodoDetailState extends State<TodoDetail> {
     int result;
     if (todo.id != null) {
       // Case 1: Update operation
-      result = await helper.updateTodo(todo);
+      // result = await helper.updateTodo(todo);
+      result =
+          Provider.of<TodoProvider>(context, listen: false).updateTask(todo);
     } else {
       // Case 2: Insert Operation
-      result = await helper.insertTodo(todo);
+      result = result =
+          Provider.of<TodoProvider>(context, listen: false).insertTask(todo);
     }
 
     if (result != 0) {
@@ -242,7 +247,9 @@ class TodoDetailState extends State<TodoDetail> {
     }
 
     // Case 2: User is trying to delete the old todo that already has a valid ID.
-    int result = await helper.deleteTodo(todo.id);
+    // int result = await helper.deleteTodo(todo.id);
+    int result =
+        Provider.of<TodoProvider>(context, listen: false).deleteTask(todo);
     if (result != 0) {
       _showAlertDialog('Status', 'Todo Deleted Successfully');
     } else {

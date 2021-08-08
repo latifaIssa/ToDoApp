@@ -24,11 +24,12 @@ class TodoListState extends State<TodoList> {
   List<Todo> todoList;
   int count = 0;
   int counter = 0;
-  // void _incrementCounter() {
-  //   setState(() {
-  //     this.counter++;
-  //   });
-  // }
+  @override
+  void initState() {
+    super.initState();
+    //or inside todo provider constructor
+    // Provider.of<TodoProvider>(context, listen: false).getAllTask();
+  }
 
   Widget _buildTitle(BuildContext context) {
     // counter = count;
@@ -175,7 +176,9 @@ class TodoListState extends State<TodoList> {
                     color: Colors.red,
                   ),
                   onTap: () {
-                    _delete(context, todoList[position]);
+                    // _delete(context, todoList[position]);
+                    Provider.of<TodoProvider>(context, listen: false)
+                        .deleteTask(todoList[position]);
                   },
                 ),
               ],
@@ -188,7 +191,9 @@ class TodoListState extends State<TodoList> {
                     ? this.todoList[position].status = 1
                     : this.todoList[position].status = 0;
 
-                _updateStatus(context, todoList[position]);
+                // _updateStatus(context, todoList[position]);
+                Provider.of<TodoProvider>(context, listen: false)
+                    .updateStatus(todoList[position]);
               });
             },
           ),
@@ -229,21 +234,21 @@ class TodoListState extends State<TodoList> {
   // 			return Icon(Icons.keyboard_arrow_right);
   // 	}
   // }
-  void _updateStatus(BuildContext context, Todo todo) async {
-    var result = await databaseHelper.updateStatus(todo);
-    if (result != 0) {
-      updateListView();
-    }
-  }
+  // void _updateStatus(BuildContext context, Todo todo) async {
+  //   var result = await databaseHelper.updateStatus(todo);
+  //   if (result != 0) {
+  //     updateListView();
+  //   }
+  // }
 
-  void _delete(BuildContext context, Todo todo) async {
-    int result = await databaseHelper.deleteTodo(todo.id);
-    counter--;
-    if (result != 0) {
-      _showSnackBar(context, 'Todo Deleted Successfully');
-      updateListView();
-    }
-  }
+  // void _delete(BuildContext context, Todo todo) async {
+  //   int result = await databaseHelper.deleteTodo(todo.id);
+  //   counter--;
+  //   if (result != 0) {
+  //     _showSnackBar(context, 'Todo Deleted Successfully');
+  //     updateListView();
+  //   }
+  // }
 
   void _showSnackBar(BuildContext context, String message) {
     final snackBar = SnackBar(content: Text(message));
