@@ -8,7 +8,7 @@ void main() => runApp(
         //   create: (context) => TodoProvider(),
         //   child: MyApp(),
         // ),
-        ChangeNotifierProvider(
+        ChangeNotifierProvider<TodoProvider>(
       create: (context) => TodoProvider(),
       child: MyApp(),
     ));
